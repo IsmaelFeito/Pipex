@@ -6,7 +6,7 @@
 /*   By: ifeito-m <ifeito-m@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/04 15:43:10 by ifeito-m          #+#    #+#             */
-/*   Updated: 2024/10/23 19:36:44 by ifeito-m         ###   ########.fr       */
+/*   Updated: 2024/11/18 14:09:48 by ifeito-m         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,8 @@
 
 # define READ_END 0//indice extremo lectura
 # define WRITE_END 1//indice extremo escritura
+
+
 
 
 

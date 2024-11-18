@@ -6,7 +6,7 @@
 /*   By: ifeito-m <ifeito-m@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/18 14:11:49 by ifeito-m          #+#    #+#             */
-/*   Updated: 2024/11/18 14:56:14 by ifeito-m         ###   ########.fr       */
+/*   Updated: 2024/11/18 15:31:11 by ifeito-m         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,6 +75,6 @@ void run_command(char *input, char **env)
 	free(comm_pth);
 	while (*comm)
 		free(*comm++);
-		free(comm);
-		exit(1);
+	free(comm);
+	exit(1);
 }
