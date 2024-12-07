@@ -12,43 +12,71 @@
 
 #include "includes/pipex.h"
 
-int main(int argc, char **argv, char **env)
+void run_parent(char **av, char **env, int *pipefd)
 {
-    int fd[3][2];
-    int i;
-    int pid1;
+	int	output_fd;
 
-    for (i-0; i<3; i++){
-        if (pipe(fd[i] < 0)){
-            return(1);
-        }
-    }
-    pid1 = fork();
-    if (pid1 <0)
-        return(2);
-    
-    if (pid1 == 0){
-        
-    }
-    // if (argc == 5)
-    // {
-    //     if(pipe == -1)//comunica entre comandos
-    //         error();
-    //     pid1 = fork();
-    //     if (fork == -1)
-    //         error();
-    //     if(pid1 == 0)//1st son exe 1st command
-    //     {
-    //         close(fd[READ_END]);
+	output_fd=open(av[4], O_WRONLY | O_CREAT | O_TRUNC, 0777);
+	if (output_fd<0)
+	{
+		perror("ERROR OPENING OUTPUT FILE");
+		close(pipefd[RD]);
+		close(pipefd[WRT]);
+		exit(1);
+	}
+	dup2(output_fd, STDIN_FILENO);
+	dup2(pipefd[RD], STDOUT_FILENO);
+	close(pipefd[RD]);
+	close(pipefd[WRT]);
+	close(output_fd);
+	run_command(av[3], env);
+}
 
-    //         dup2(fd[WRITE_END], STDOUT_FILENO);
-    //         close(fd[WRITE_END]);
-            
-    //         execlp("/bin/ls", "ls", "-l", NULL);
-    //     }
-        
-    // }
-    // else
-    //     ft_putstr_fd("\033[31mError: Bad arguments\n\e[0m", 2);
-    // return (0);
+void run_child(char **av, char **env, int *pipefd)
+{
+	int		input_fd;
+	
+	input_fd=open(av[WRT], O_RDONLY);
+	if (input_fd<0)
+	{
+		perror("ERROR OPENING INPUT FILE");
+		close(pipefd[RD]);
+		close(pipefd[WRT]);
+		exit(1);
+	}
+	dup2(input_fd, STDIN_FILENO);
+	dup2(pipefd[WRT], STDOUT_FILENO);
+	close(pipefd[RD]);
+	close(pipefd[WRT]);
+	run_command(av[2], env);
+}
+void	exec_pipes_lines(char **av, char **env)
+{
+	int 	pipefd[2];
+	pid_t	child_pid;
+
+	if(pipe(pipefd) < 0)
+		pipe_err();
+	child_pid= fork();
+	if (child_pid<0)
+	{
+		close(pipefd[RD]);
+		close(pipefd[WRT]);
+		perror("FORK ERROR");
+		exit(1);
+	}
+	if (child_pid==0)
+		run_child(av, env, pipefd);
+	close(pipefd[1]);
+	waitpid(child_pid, NULL, 0);
+	run_parent(av, env, pipefd);
+}
+
+int	main(int ac, char **av, char **env)
+{
+	if (ac==5)
+		exec_pipes_lines(av, env);
+	else
+		av_error();
+	return 0;
 }

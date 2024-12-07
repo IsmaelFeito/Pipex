@@ -15,11 +15,14 @@
 
 # include "../includes/libft.h"
 # include <unistd.h>
+# include <stdlib.h>
 # include <stdio.h>
 # include <string.h>
+# include <fcntl.h>
+# include <sys/wait.h>
 
-# define READ_END 0//indice extremo lectura
-# define WRITE_END 1//indice extremo escritura
+# define RD 0//indice extremo lectura
+# define WRT 1//indice extremo escritura
 
 
 
