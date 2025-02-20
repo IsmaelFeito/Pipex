@@ -6,13 +6,13 @@
 /*   By: ifeito-m <ifeito-m@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/18 14:11:49 by ifeito-m          #+#    #+#             */
-/*   Updated: 2024/11/18 15:31:11 by ifeito-m         ###   ########.fr       */
+/*   Updated: 2025/02/20 18:14:35 by ifeito-m         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <../includes/pipex.h>
 
-char **search_comm_in_dirs(char ** dirs, char *command)
+char	**search_comm_in_dirs(char **dirs, char *command)
 {
 	char	*temp_pth;
 	char	*full_pth;
@@ -39,7 +39,7 @@ char **get_path(char *comm, char **env)
 	int i;
 
 	i=0;
-	while (env[i] && !ft_strnstr(env[i], "PATH", 4))
+	while (env[i] && !ft_strnstr(env[i], "PATH=", 5))
 		i++;
 	if (!env[i])
 		return (NULL);
@@ -60,6 +60,8 @@ void run_command(char *input, char **env)
 	char **comm_pth;
 
 	comm = ft_split(input, ' ');
+	if (ft_strchr(comm[0], "/"))
+		return(ft_strdup(comm[0]));
 	comm_pth = get_path(comm[0], env);
 
 	if (!comm_pth)
@@ -76,5 +78,18 @@ void run_command(char *input, char **env)
 	while (*comm)
 		free(*comm++);
 	free(comm);
+	exit(1);
+}
+
+void	pipe_error(void)
+{
+	perror("Pipe error");
+	exit(1);
+}
+
+void	args_error(void)
+{
+	ft_putstr_fd("\033[31mError: Invalid arguments\n\e[0m", 2);
+	ft_putstr_fd("Usage: ./pipex <infile> <cmd1> <cmd2> <outfile>\n", 1);
 	exit(1);
 }
