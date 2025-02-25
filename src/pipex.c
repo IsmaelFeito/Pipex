@@ -6,11 +6,11 @@
 /*   By: ifeito-m <ifeito-m@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/04 16:05:41 by ifeito-m          #+#    #+#             */
-/*   Updated: 2025/02/20 18:06:40 by ifeito-m         ###   ########.fr       */
+/*   Updated: 2025/02/24 18:26:34 by ifeito-m         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "includes/pipex.h"
+#include "../includes/pipex.h"
 
 void	run_child(char **args, char **env, int *pipefd)
 {

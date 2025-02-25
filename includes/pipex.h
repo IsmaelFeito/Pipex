@@ -6,7 +6,7 @@
 /*   By: ifeito-m <ifeito-m@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/04 15:43:10 by ifeito-m          #+#    #+#             */
-/*   Updated: 2024/11/18 14:09:48 by ifeito-m         ###   ########.fr       */
+/*   Updated: 2025/02/25 16:29:03 by ifeito-m         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,13 +21,11 @@
 # include <fcntl.h>
 # include <sys/wait.h>
 
-# define RD 0//indice extremo lectura
-# define WRT 1//indice extremo escritura
-
-
-
-
-
-
+void	ft_clean_mem(char **result);
+char	*search_comm_in_dirs(char **dirs, char *command);
+char	*get_path(char *comm, char **env);
+void	run_command(char *input, char **env);
+void	pipe_error(void);
+void	args_error(void);
 
 #endif
