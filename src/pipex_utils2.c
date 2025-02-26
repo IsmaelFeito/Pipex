@@ -6,11 +6,21 @@
 /*   By: ifeito-m <ifeito-m@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/25 16:24:19 by ifeito-m          #+#    #+#             */
-/*   Updated: 2025/02/25 16:28:39 by ifeito-m         ###   ########.fr       */
+/*   Updated: 2025/02/26 16:22:11 by ifeito-m         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/pipex.h"
+
+int	final_child_pid(pid_t child_pid2, int pid)
+{
+	if (waitpid(child_pid2, &pid, 0) == -1)
+	{
+		perror(NULL);
+		exit(1);
+	}
+	return (pid >> 8);
+}
 
 void	ft_clean_mem(char **result)
 {

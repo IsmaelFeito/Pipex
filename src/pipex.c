@@ -6,7 +6,7 @@
 /*   By: ifeito-m <ifeito-m@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/04 16:05:41 by ifeito-m          #+#    #+#             */
-/*   Updated: 2025/02/24 18:26:34 by ifeito-m         ###   ########.fr       */
+/*   Updated: 2025/02/26 16:22:46 by ifeito-m         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,12 +52,14 @@ void	run_child_2(char **args, char **env, int *pipefd)
 	run_command(args[3], env);
 }
 
-void	execute_pipeline(char **args, char **env)
+int	execute_pipeline(char **args, char **env)
 {
 	int		pipefd[2];
 	pid_t	child_pid;
 	pid_t	child_pid2;
+	int		ret;
 
+	ret = 0;
 	if (pipe(pipefd) < 0)
 		pipe_error();
 	child_pid = fork();
@@ -70,14 +72,17 @@ void	execute_pipeline(char **args, char **env)
 		run_child_2(args, env, pipefd);
 	close(pipefd[1]);
 	waitpid(child_pid, NULL, 0);
-	waitpid(child_pid2, NULL, 0);
+	return (final_child_pid(child_pid2, ret));
 }
 
 int	main(int argc, char **args, char **env)
 {
+	int	pid;
+
+	pid = 0;
 	if (argc == 5)
-		execute_pipeline(args, env);
+		pid = execute_pipeline(args, env);
 	else
 		args_error();
-	return (0);
+	return (pid);
 }

@@ -6,7 +6,7 @@
 /*   By: ifeito-m <ifeito-m@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/04 15:43:10 by ifeito-m          #+#    #+#             */
-/*   Updated: 2025/02/25 16:29:03 by ifeito-m         ###   ########.fr       */
+/*   Updated: 2025/02/26 16:17:41 by ifeito-m         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,7 @@
 # include <fcntl.h>
 # include <sys/wait.h>
 
+int		final_child_pid(pid_t child_pid2, int pid);
 void	check_fork_err(pid_t child_pid, int *pipefd);
 void	ft_clean_mem(char **result);
 char	*search_comm_in_dirs(char **dirs, char *command);
