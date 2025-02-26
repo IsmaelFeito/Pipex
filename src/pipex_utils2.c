@@ -14,9 +14,21 @@
 
 void	ft_clean_mem(char **result)
 {
-    int i;
-    i=0;
+	int	i;
+
+	i = 0;
 	while (result[i] != NULL)
 		freedom((void **)&result[i++]);
 	freedom((void **)&result);
+}
+
+void	check_fork_err(pid_t child_pid, int	*pipefd)
+{
+	if (child_pid < 0)
+	{
+		close(pipefd[0]);
+		close(pipefd[1]);
+		perror("Fork error");
+		exit(1);
+	}
 }

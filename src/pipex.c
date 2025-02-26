@@ -32,7 +32,7 @@ void	run_child(char **args, char **env, int *pipefd)
 	run_command(args[2], env);
 }
 
-void	run_parent(char **args, char **env, int *pipefd)
+void	run_child_2(char **args, char **env, int *pipefd)
 {
 	int	output_fd;
 
@@ -56,22 +56,21 @@ void	execute_pipeline(char **args, char **env)
 {
 	int		pipefd[2];
 	pid_t	child_pid;
+	pid_t	child_pid2;
 
 	if (pipe(pipefd) < 0)
 		pipe_error();
 	child_pid = fork();
-	if (child_pid < 0)
-	{
-		close(pipefd[0]);
-		close(pipefd[1]);
-		perror("Fork error");
-		exit(1);
-	}
+	check_fork_err(child_pid, pipefd);
 	if (child_pid == 0)
 		run_child(args, env, pipefd);
+	child_pid2 = fork();
+	check_fork_err(child_pid2, pipefd);
+	if (child_pid2 == 0)
+		run_child_2(args, env, pipefd);
 	close(pipefd[1]);
 	waitpid(child_pid, NULL, 0);
-	run_parent(args, env, pipefd);
+	waitpid(child_pid2, NULL, 0);
 }
 
 int	main(int argc, char **args, char **env)

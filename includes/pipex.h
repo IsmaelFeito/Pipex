@@ -21,6 +21,7 @@
 # include <fcntl.h>
 # include <sys/wait.h>
 
+void	check_fork_err(pid_t child_pid, int *pipefd);
 void	ft_clean_mem(char **result);
 char	*search_comm_in_dirs(char **dirs, char *command);
 char	*get_path(char *comm, char **env);

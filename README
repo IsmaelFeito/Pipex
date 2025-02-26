@@ -1,8 +1,0 @@
-PIPEX -> comprov nbr arguments-> (in)file 1 comand 1 | coamnd 2 (out)file 2
-
--> create pipe /(int fd[2]; int id = fork(); if id=0)
-        - padre pipe
-        - dup2() (redirecciona comando a infile de sigueinte compdo/hijo) -> crear hijo x comando;
-        - pid -> process identifier (process_ID);
-        - **env del main -> el compilador te genera un puntero directamnete al enviroment y así trabajas con él;
-->look for corresponding command on to the corresponding child pipe.
