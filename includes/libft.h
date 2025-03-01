@@ -26,6 +26,8 @@ typedef struct s_list
 }	t_list;
 
 //main
+char	*ft_cleaner(char *str, char *removers);
+char	**ft_split_pipex(char const *s, char c);
 int		ft_atoi(const char *str);
 void	ft_bzero(void *s, size_t n);
 void	*ft_calloc(size_t count, size_t size);

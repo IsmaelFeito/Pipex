@@ -71,18 +71,19 @@ int	execute_pipeline(char **args, char **env)
 	if (child_pid2 == 0)
 		run_child_2(args, env, pipefd);
 	close(pipefd[1]);
+	close(pipefd[0]);
 	waitpid(child_pid, NULL, 0);
 	return (final_child_pid(child_pid2, ret));
 }
 
 int	main(int argc, char **args, char **env)
 {
-	int	pid;
+	int	e_status;
 
-	pid = 0;
+	e_status = 0;
 	if (argc == 5)
-		pid = execute_pipeline(args, env);
+		e_status = execute_pipeline(args, env);
 	else
 		args_error();
-	return (pid);
+	return (e_status);
 }

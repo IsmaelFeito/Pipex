@@ -45,7 +45,7 @@ char	*get_path(char *comm, char **env)
 		i++;
 	if (!env[i])
 		return (NULL);
-	dirs = ft_split(env[i] + 5, ':');
+	dirs = ft_split_pipex(env[i] + 5, ':');
 	if (!dirs)
 		return (NULL);
 	full_pth = search_comm_in_dirs(dirs, comm);
@@ -60,8 +60,14 @@ void	run_command(char *input, char **env)
 {
 	char	**comm;
 	char	*comm_pth;
+	int		i;
 
-	comm = ft_split(input, ' ');
+	i = 0;
+	comm = ft_split_pipex(input, ' ');
+	while (comm[i])
+	{
+		ft_cleaner(comm[i++], "\"\'");
+	}
 	comm_pth = get_path(comm[0], env);
 	if (!comm_pth)
 	{
