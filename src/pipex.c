@@ -61,7 +61,10 @@ int	execute_pipeline(char **args, char **env)
 
 	ret = 0;
 	if (pipe(pipefd) < 0)
+	{
 		pipe_error();
+		return (1);
+	}
 	child_pid = fork();
 	check_fork_err(child_pid, pipefd);
 	if (child_pid == 0)

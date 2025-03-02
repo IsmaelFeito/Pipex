@@ -24,6 +24,8 @@ char	*search_comm_in_dirs(char **dirs, char *command)
 		temp_pth = ft_strjoin(dirs[i], "/");
 		full_pth = ft_strjoin(temp_pth, command);
 		free(temp_pth);
+		if (!full_pth)
+			return (NULL);
 		if (access(full_pth, F_OK) == 0)
 			return (full_pth);
 		free(full_pth);
@@ -36,6 +38,7 @@ char	*get_path(char *comm, char **env)
 {
 	char	**dirs;
 	char	*full_pth;
+	char	*full_pth_copy;
 	int		i;
 
 	if (ft_strchr(comm, '/'))
@@ -49,11 +52,15 @@ char	*get_path(char *comm, char **env)
 	if (!dirs)
 		return (NULL);
 	full_pth = search_comm_in_dirs(dirs, comm);
+	if (full_pth)
+		full_pth_copy = ft_strdup(full_pth);
+	else
+		full_pth_copy = NULL;
 	i = 0;
 	while (dirs[i])
 		free(dirs[i++]);
 	free(dirs);
-	return (full_pth);
+	return (full_pth_copy);
 }
 
 void	run_command(char *input, char **env)
@@ -62,19 +69,17 @@ void	run_command(char *input, char **env)
 	char	*comm_pth;
 	int		i;
 
-	i = 0;
+	i = -1;
 	comm = ft_split_pipex(input, ' ');
-	while (comm[i])
-	{
-		ft_cleaner(comm[i++], "\"\'");
-		
-	}
+	if (!comm || !comm[0])
+		return (ft_clean_mem(comm), perror("Invalid command"),
+			exit(127), (void)0);
+	while (comm[++i])
+		comm[i] = ft_cleaner(comm[i], "\"\'");
 	comm_pth = get_path(comm[0], env);
 	if (!comm_pth)
 	{
-		while (*comm)
-			free(*comm++);
-		free(comm);
+		ft_clean_mem(comm);
 		perror("Command not found");
 		exit(127);
 	}

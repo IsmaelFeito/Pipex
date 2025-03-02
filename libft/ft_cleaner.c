@@ -37,16 +37,19 @@ static char	*ft_cleaner_aux(char *str, char remover)
 
 char	*ft_cleaner(char *str, char *removers)
 {
-	int	i;
+	int		i;
+	char	*temp;
 
 	if (!str || !*str)
 		return (NULL);
 	i = 0;
 	while (removers[i] != '\0')
 	{
-		str = ft_cleaner_aux(str, removers[i]);
-		if (!str)
+		temp = ft_cleaner_aux(str, removers[i]);
+		if (!temp)
 			return (NULL);
+		free(str);
+		str = temp;
 		i++;
 	}
 	return (str);

@@ -42,7 +42,7 @@ static int	asign_memory(char const *s, char c, int i, int k)
 
 static void	*free_memory(char **str, int k)
 {
-	while (k >= 0)
+	while (k > 0)
 	{
 		free(str[k]);
 		k--;
