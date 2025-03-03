@@ -38,7 +38,6 @@ char	*get_path(char *comm, char **env)
 {
 	char	**dirs;
 	char	*full_pth;
-	char	*full_pth_copy;
 	int		i;
 
 	if (ft_strchr(comm, '/'))
@@ -52,15 +51,11 @@ char	*get_path(char *comm, char **env)
 	if (!dirs)
 		return (NULL);
 	full_pth = search_comm_in_dirs(dirs, comm);
-	if (full_pth)
-		full_pth_copy = ft_strdup(full_pth);
-	else
-		full_pth_copy = NULL;
 	i = 0;
 	while (dirs[i])
 		free(dirs[i++]);
 	free(dirs);
-	return (full_pth_copy);
+	return (full_pth);
 }
 
 void	run_command(char *input, char **env)
@@ -99,6 +94,6 @@ void	pipe_error(void)
 void	args_error(void)
 {
 	ft_putstr_fd("\033[31mError: Invalid arguments\n\e[0m", 2);
-	ft_putstr_fd("Usage: ./pipex <infile> <cmd1> <cmd2> <outfile>\n", 1);
+	ft_putstr_fd("Usage: ./pipex <infile> <cmd1> <cmd2> <outfile>\n", 2);
 	exit(1);
 }

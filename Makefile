@@ -5,7 +5,7 @@ SRC = 	src/pipex.c \
 		src/pipex_utils2.c
 
 RM = rm -rf
-CFLAGS = -Werror -Wall -Wextra -g3
+CFLAGS = -Werror -Wall -Wextra -g3 -fsanitize=address
 CC = cc
 LIBFT = libft.a
 LIBFT_PATH = libft/

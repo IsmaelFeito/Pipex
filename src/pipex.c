@@ -16,6 +16,7 @@ void	run_child(char **args, char **env, int *pipefd)
 {
 	int	input_fd;
 
+	close(pipefd[0]);
 	input_fd = open(args[1], O_RDONLY);
 	if (input_fd < 0)
 	{
@@ -25,10 +26,9 @@ void	run_child(char **args, char **env, int *pipefd)
 		exit(1);
 	}
 	dup2(input_fd, STDIN_FILENO);
-	dup2(pipefd[1], STDOUT_FILENO);
-	close(pipefd[0]);
-	close(pipefd[1]);
 	close(input_fd);
+	dup2(pipefd[1], STDOUT_FILENO);
+	close(pipefd[1]);
 	run_command(args[2], env);
 }
 
